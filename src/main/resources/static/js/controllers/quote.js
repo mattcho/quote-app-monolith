@@ -3,6 +3,7 @@
 angular.module('app.controllers', [])
 
 .controller('RandomQuoteCtrl', function($scope, QuoteService) {
+	
 	QuoteService.random()
 		.$promise.then(function(quote) {
 			$scope.quote = quote;
@@ -21,4 +22,11 @@ angular.module('app.controllers', [])
             }
         );
     };
+})
+.controller('QuotesCtrl', function($scope, $http, $stateParams) {
+	
+	$http.get("/api/quote/" + $stateParams.authorId)
+	.then(function(quotes) {
+		$scope.quotes = quotes.data;
+	});
 });
